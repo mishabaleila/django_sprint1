@@ -1,6 +1,6 @@
 {% load static %}
 {% with request.resolver_match.view_name as view_name %}
-<header>
+  <header>
     <nav class="navbar navbar-light" style="background-color: lightskyblue">
       <div class="container">
         <a class="navbar-brand" href="{% url 'blog:index' %}">
@@ -30,4 +30,4 @@
       </div>
     </nav> 
   </header>
-  {% endwith %}
+{% endwith %}

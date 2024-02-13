@@ -45,20 +45,18 @@ posts = [
 
 
 def index(request):
-    reversed_posts = posts.copy()
-    reversed_posts.reverse()
-    context = {"posts": reversed_posts}
-    return render(request, "blog/index.html", context)
+    context = {'posts': posts}
+    return render(request, 'blog/index.html', context)
 
 
 def post_detail(request, id):
-    post = next((post for post in posts if post['id'] == id), None)
-    return render(request, "blog/detail.html", context={'post': post})
+    post_dict = {post['id']: post for post in posts}
+    post = post_dict.get(id)
+    if post is None:
+        raise Exception('Пост не найден')
+    return render(request, 'blog/detail.html', context={'post': post})
 
 
 def category_posts(request, category_slug):
-    posts_by_category = [
-        post for post in posts if post['category'] == category_slug
-    ]
-    context = {'posts': posts_by_category, "category_slug": category_slug}
-    return render(request, "blog/category.html", context)
+    context = {'category_slug': category_slug}
+    return render(request, 'blog/category.html', context)
