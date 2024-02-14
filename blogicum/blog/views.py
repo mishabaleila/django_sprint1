@@ -1,5 +1,6 @@
 from django.shortcuts import render
 
+from django.http import Http404
 posts = [
     {
         'id': 0,
@@ -50,11 +51,10 @@ def index(request):
 
 
 def post_detail(request, id):
-    post_dict = {post['id']: post for post in posts}
-    post = post_dict.get(id)
-    if post is None:
-        raise Exception('Пост не найден')
-    return render(request, 'blog/detail.html', context={'post': post})
+    post_mapping = {post['id']: post for post in posts}
+    if post := post_mapping.get(id):
+        return render(request, 'blog/detail.html', context={'post': post})
+    raise Http404(f'Пост под номером {id} не найден')
 
 
 def category_posts(request, category_slug):
