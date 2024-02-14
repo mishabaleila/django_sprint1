@@ -52,9 +52,10 @@ def index(request):
 
 def post_detail(request, id):
     post_mapping = {post['id']: post for post in posts}
-    if post := post_mapping.get(id):
-        return render(request, 'blog/detail.html', context={'post': post})
-    raise Http404(f'Пост под номером {id} не найден')
+    post = post_mapping.get(id)
+    if post is None:
+        raise Http404(f'Пост под номером {id} не найден')
+    return render(request, 'blog/detail.html', context={'post': post})
 
 
 def category_posts(request, category_slug):
